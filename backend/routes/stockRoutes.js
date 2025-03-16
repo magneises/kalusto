@@ -46,18 +46,29 @@ router.get("/stocks/:symbol", async (req, res) => {
         res.json({
             symbol,
             stockData: {
-                date: stockDate,  // ✅ Now always included
+                date: stockDate,
                 symbol: stockData.symbol,
                 name: stockData.name,
                 price: stockData.price,
                 open: stockData.open ?? null,
                 high: stockData.dayHigh ?? null,
                 low: stockData.dayLow ?? null,
-                close: stockClose,  // ✅ Ensuring `close` is always present
-                volume: stockData.volume ?? null,
+                close: stockClose,
+                previousClose: stockData.previousClose ?? null,
+                changesPercentage: stockData.changesPercentage ?? null,
+                change: stockData.change ?? null,
+                yearHigh: stockData.yearHigh ?? null,
+                yearLow: stockData.yearLow ?? null,
                 marketCap: stockData.marketCap ?? null,
-                exchange: stockData.exchange,
-                missingFields: missingFields.length > 0 ? missingFields : undefined // Include missing fields in response
+                priceAvg50: stockData.priceAvg50 ?? null,
+                priceAvg200: stockData.priceAvg200 ?? null,
+                exchange: stockData.exchange ?? null,
+                volume: stockData.volume ?? null,
+                avgVolume: stockData.avgVolume ?? null,
+                eps: stockData.eps ?? null,
+                pe: stockData.pe ?? null,
+                earningsAnnouncement: stockData.earningsAnnouncement ?? null,
+                sharesOutstanding: stockData.sharesOutstanding ?? null,
             }
         });
 
