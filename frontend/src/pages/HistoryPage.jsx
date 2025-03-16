@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const HistoryPage = () => {
+function HistoryPage() {
     const [symbol, setSymbol] = useState("AAPL");
     const [history, setHistory] = useState([]);
 
@@ -9,12 +9,20 @@ const HistoryPage = () => {
         const fetchHistory = async () => {
             try {
                 const response = await axios.get(`http://localhost:3200/api/stocks/history/${symbol}`);
-                setHistory(response.data);
+                console.log("API Response in Frontend:", response.data);
+        
+                if (Array.isArray(response.data.stockData)) {
+                    response.data.stockData.forEach(entry => console.log("History Entry:", entry));
+                    setHistory(response.data.stockData);
+                } else {
+                    setHistory([]); // Prevents crashing if response is unexpected
+                }
             } catch (error) {
                 console.error("Failed to fetch stock history", error);
+                setHistory([]); 
             }
         };
-
+    
         fetchHistory();
     }, [symbol]);
 
@@ -38,19 +46,28 @@ const HistoryPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {history.map((entry) => (
-                        <tr key={entry.date}>
-                            <td>{entry.date}</td>
-                            <td>{entry.open}</td>
-                            <td>{entry.high}</td>
-                            <td>{entry.low}</td>
-                            <td>{entry.close}</td>
+                    {Array.isArray(history) && history.length > 0 ? (
+                        history.map((entry, index) => {
+                            console.log("History Entry:", entry);
+                            return (
+                                <tr key={index}>
+                                    <td>{entry.date ? new Date(entry.date).toLocaleDateString() : "N/A"}</td>
+                                    <td>{entry.open ?? "N/A"}</td>
+                                    <td>{entry.high ?? "N/A"}</td>
+                                    <td>{entry.low ?? "N/A"}</td>
+                                    <td>{entry.close ?? "N/A"}</td>
+                                </tr>
+                            );
+                        })
+                    ) : (
+                        <tr>
+                            <td colSpan="5">No historical data available</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
         </div>
     );
-};
+}
 
 export default HistoryPage;
