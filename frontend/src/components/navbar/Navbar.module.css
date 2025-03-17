@@ -1,1 +1,81 @@
 
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.logoContainer {
+    display: flex;
+    margin: 0px 10px;;
+}
+
+.NavbarContainer {
+    /* background-color: yellow; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 60px;
+    align-items: center;
+    border-bottom: 1px solid grey;
+}
+
+.navLinks {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 33.33%;
+    color: black;
+}
+
+.navLinks a {
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.navLinks a.active {
+    color: #9f9fff;
+}
+
+.navLinks a:hover,
+.navLinks a:focus,
+.navLinks a:active,
+.navLinks a:visited:hover,
+.navLinks a:focus:visited {
+    color: #9f9fff;
+}
+
+.navLinks a:visited {
+    color: black;
+}
+
+.userInformation {
+    display: flex;
+    margin: 0 10px;
+}
+
+
+
+button {
+    background-color: 	#CF9FFF;
+    border: 0px;
+    border-radius: 5px;
+    height: 30px;
+    width: 100px;
+}
+
+button:hover {
+    background-color: #9f9fff;
+    color: white;
+    cursor: pointer;
+}
