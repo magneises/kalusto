@@ -93,26 +93,33 @@ router.get("/stocks/history/:symbol", async (req, res) => {
         case "YTD": days = 365; break;
         case "1Y": days = 365; break;
         case "4Y": days = 1460; break;
-        case "ALL": days = 5000; break; // Large number to cover all available data
-        default: days = 1; // Default to 1 day if no valid range is provided
+        case "ALL": days = 5000; break;
+        default: days = 7; // Default to 1 week
     }
 
     try {
-        const stockUrl = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?apikey=${FMP_API_KEY}&serietype=line`;
+        const stockUrl = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?apikey=${FMP_API_KEY}`;
         const stockResponse = await axios.get(stockUrl);
+
+        console.log("Full API Response from FMP:", JSON.stringify(stockResponse.data, null, 2)); // Debug Full API Response
 
         if (!stockResponse.data || !stockResponse.data.historical || stockResponse.data.historical.length === 0) {
             return res.status(400).json({ error: `No stock history found for ${symbol}.` });
         }
 
-        // Get the requested number of trading days
+        // Extract the requested number of trading days
         const historicalData = stockResponse.data.historical.slice(0, days).reverse();
+
+        console.log("Processed Historical Data:", JSON.stringify(historicalData, null, 2)); // Log Processed Data
 
         res.json({
             symbol,
             stockData: historicalData.map(day => ({
-                date: day.date,  
-                close: day.close
+                date: day.date ?? null,
+                open: day.open ?? null,
+                high: day.high ?? null,
+                low: day.low ?? null,
+                close: day.close ?? null
             }))
         });
 
@@ -121,6 +128,7 @@ router.get("/stocks/history/:symbol", async (req, res) => {
         res.status(500).json({ error: "Failed to fetch stock history", details: error.message });
     }
 });
+
 
 
 
