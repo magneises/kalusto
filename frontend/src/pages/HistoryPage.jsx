@@ -6,22 +6,24 @@ function HistoryPage() {
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
-        const fetchHistory = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3200/api/stocks/history/${symbol}`);
-                console.log("API Response in Frontend:", response.data);
-        
-                if (Array.isArray(response.data.stockData)) {
-                    response.data.stockData.forEach(entry => console.log("History Entry:", entry));
-                    setHistory(response.data.stockData);
-                } else {
-                    setHistory([]); // Prevents crashing if response is unexpected
-                }
-            } catch (error) {
-                console.error("Failed to fetch stock history", error);
-                setHistory([]); 
-            }
-        };
+const fetchHistory = async () => {
+    try {
+        const response = await axios.get(`http://localhost:3200/api/stocks/history/${symbol}`);
+        console.log("API Response in Frontend:", response.data);
+
+        if (Array.isArray(response.data.stockData)) {
+            response.data.stockData.forEach(entry => console.log("History Entry:", entry));
+            setHistory(response.data.stockData);
+        } else {
+            console.warn("Unexpected API response structure:", response.data);
+            setHistory([]); // Prevents crashing if response is unexpected
+        }
+    } catch (error) {
+        console.error("Failed to fetch stock history", error);
+        setHistory([]); 
+    }
+};
+
     
         fetchHistory();
     }, [symbol]);
