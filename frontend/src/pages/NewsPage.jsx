@@ -3,32 +3,54 @@ import axios from "axios";
 
 function NewsPage() {
     const [symbol, setSymbol] = useState("AAPL");
+    const [inputValue, setInputValue] = useState("AAPL"); // Separate input field
     const [news, setNews] = useState([]);
 
-    useEffect(() => {
-        const fetchNews = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3200/api/news/${symbol}`);
-                console.log("News API Response:", response.data);
-                setNews(response.data.news || []);
-            } catch (error) {
-                console.error("Failed to fetch news", error);
-            }
-        };
+    const fetchNews = async (searchSymbol) => {
+        try {
+            const response = await axios.get(`http://localhost:3200/api/news/${searchSymbol}`);
+            console.log("News API Response:", response.data);
+            setNews(response.data.news || []);
+        } catch (error) {
+            console.error("Failed to fetch news", error);
+            setNews([]); // Handle empty response
+        }
+    };
 
-        fetchNews();
-    }, [symbol]);
+    useEffect(() => {
+        fetchNews(symbol);
+    }, [symbol]); // Fetch news when symbol changes
+
+    // Handle search on button click
+    const handleSearch = () => {
+        if (inputValue.trim()) {
+            setSymbol(inputValue.trim().toUpperCase()); // Update symbol to trigger useEffect
+        }
+    };
+
+    // Handle search on Enter key press
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+            handleSearch();
+        }
+    };
 
     return (
         <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
             <h1>{symbol} Stock News</h1>
-            <input
-                type="text"
-                placeholder="Enter stock symbol"
-                value={symbol}
-                onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-                style={{ width: "100%", padding: "8px", marginBottom: "20px" }}
-            />
+            <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+                <input
+                    type="text"
+                    placeholder="Enter stock symbol"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value.toUpperCase())}
+                    onKeyPress={handleKeyPress} // Trigger search on Enter
+                    style={{ flex: "1", padding: "8px" }}
+                />
+                <button onClick={handleSearch} style={{ padding: "8px 15px", cursor: "pointer" }}>
+                    Search
+                </button>
+            </div>
 
             {news.length > 0 ? (
                 news.map((article) => (
