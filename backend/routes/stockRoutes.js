@@ -7,6 +7,7 @@ dotenv.config();
 
 const router = express.Router();
 const FMP_API_KEY = process.env.FMP_API_KEY;
+const POLYGON_API_KEY = process.env.POLYGON_API_KEY;
 
 // Fetch stock price from Financial Modeling Prep
 router.get("/stocks/:symbol", async (req, res) => {
@@ -130,6 +131,65 @@ router.get("/stocks/history/:symbol", async (req, res) => {
 });
 
 
+// Stock News Sentiment
+router.get("/news/:symbol", async (req, res) => {
+    const { symbol } = req.params;
+    const url = `https://api.polygon.io/v2/reference/news?ticker=${symbol}&order=desc&limit=10&sort=published_utc&apiKey=${POLYGON_API_KEY}`;
 
+    try {
+        const response = await axios.get(url);
+        const newsData = response.data.results;
+
+        if (!newsData || newsData.length === 0) {
+            return res.status(400).json({ error: `No news found for ${symbol}.` });
+        }
+
+        // Analyze sentiment if not included in response
+        let analyzedNews = await Promise.all(newsData.map(async (article) => {
+            let sentimentScore = null;
+            let sentimentLabel = "neutral";
+
+            // Perform sentiment analysis if Polygon doesn't provide it
+            if (!article.insights || article.insights.length === 0) {
+                const sentimentResponse = await axios.post(
+                    "https://api-inference.huggingface.co/models/ProsusAI/finbert",
+                    { inputs: article.title },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${HUGGINGFACE_API_KEY}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                const scores = sentimentResponse.data[0];
+                if (scores) {
+                    sentimentLabel = scores.positive > scores.negative ? "positive" : "negative";
+                    sentimentScore = scores;
+                }
+            }
+
+            return {
+                id: article.id,
+                publisher: article.publisher?.name ?? "Unknown",
+                title: article.title,
+                author: article.author,
+                published_utc: article.published_utc,
+                article_url: article.article_url,
+                tickers: article.tickers,
+                description: article.description,
+                image_url: article.image_url,
+                sentiment: article.insights?.sentiment ?? sentimentLabel,
+                sentiment_score: sentimentScore
+            };
+        }));
+
+        res.json({ symbol, news: analyzedNews });
+
+    } catch (error) {
+        console.error(`Error fetching news for ${symbol}:`, error);
+        res.status(500).json({ error: "Failed to fetch stock news", details: error.message });
+    }
+});
 
 export default router;
