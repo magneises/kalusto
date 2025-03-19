@@ -8,7 +8,7 @@ function HistoryPage() {
     useEffect(() => {
 const fetchHistory = async () => {
     try {
-        const response = await axios.get(`http://localhost:3200/api/stocks/history/${symbol}`);
+        const response = await axios.get(`${import.meta.env.VITE_API}/api/stocks/history/${symbol}`);
         console.log("API Response in Frontend:", response.data);
 
         if (Array.isArray(response.data.stockData)) {

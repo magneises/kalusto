@@ -8,7 +8,7 @@ const StockTicker = () => {
     useEffect(() => {
         const fetchTickerData = async () => {
             try {
-                const response = await axios.get("http://localhost:3200/api/ticker"); // Update with your API route
+                const response = await axios.get(import.meta.env.VITE_API+"/api/ticker"); // Update with your API route
                 setTickers(response.data.tickers || []);
             } catch (error) {
                 console.error("Failed to fetch stock ticker data", error);

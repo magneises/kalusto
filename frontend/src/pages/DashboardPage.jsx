@@ -21,7 +21,7 @@ const DashboardPage = () => {
             setError(null);
 
             try {
-                const response = await axios.get(`http://localhost:3200/api/stocks/history/${symbol}?range=${view}`);
+                const response = await axios.get(`${import.meta.env.VITE_API}/api/stocks/history/${symbol}?range=${view}`);
                 
                 console.log("API Response:", response.data);
 

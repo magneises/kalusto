@@ -8,7 +8,7 @@ function NewsPage() {
 
     const fetchNews = async (searchSymbol) => {
         try {
-            const response = await axios.get(`http://localhost:3200/api/news/${searchSymbol}`);
+            const response = await axios.get(`${import.meta.env.VITE_API}/api/news/${searchSymbol}`);
             console.log("News API Response:", response.data);
             setNews(response.data.news || []);
         } catch (error) {
