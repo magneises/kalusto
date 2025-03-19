@@ -16,7 +16,7 @@ const StockTicker = () => {
         };
 
         fetchTickerData();
-        const interval = setInterval(fetchTickerData, 5000); // Refresh every 5 seconds
+        const interval = setInterval(fetchTickerData, 3600000); // Refresh every 5 seconds
 
         return () => clearInterval(interval); // Cleanup interval on unmount
     }, []);

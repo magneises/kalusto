@@ -28,9 +28,11 @@ body {
     align-items: center;
     border-bottom: 1px solid grey;
     position: fixed;
-    top: 0; /* Aligning nav to very top */ 
-    left: 0; /* Aligning nav to far left */
+    top: 40px;  /* Moves Navbar below StockTicker */
+    left: 0;
+    z-index: 1100;  /* Ensures Navbar stays above content */
 }
+
 
 .navLinks {
     display: flex;
