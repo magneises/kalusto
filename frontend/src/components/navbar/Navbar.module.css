@@ -19,7 +19,7 @@ body {
 }
 
 .NavbarContainer {
-    /* background-color: yellow; */
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

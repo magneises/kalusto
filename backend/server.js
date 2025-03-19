@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import stockRoutes from "./routes/stockRoutes.js";
+import tickerRoutes from "./routes/tickerRoutes.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ mongoose
 
 // Routes
 app.use("/api", stockRoutes);
+app.use("/api", tickerRoutes);
 
 // Base API
 app.get("/", (req, res) => {
@@ -34,3 +36,4 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);
 });
+
