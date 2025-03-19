@@ -1,4 +1,4 @@
-.ticker-container {
+.tickerContainer {
     width: 100%;
     background-color: #000;
     color: white;
@@ -11,7 +11,7 @@
     white-space: nowrap;
 }
 
-.ticker-wrapper {
+.tickerWrapper {
     display: flex;
     white-space: nowrap;
     overflow: hidden;
@@ -19,17 +19,17 @@
     width: 100%;
 }
 
-.ticker-content {
+.tickerContent {
     display: flex;
     min-width: 200%;
-    animation: ticker-scroll 20s linear infinite; /* Adjust speed */
+    animation: tickerScroll 20s linear infinite; /* Adjust speed */
 }
 
-.ticker-content:hover {
+.tickerContent:hover {
     animation-play-state: paused; /* Pause scrolling on hover */
 }
 
-.ticker-item {
+.tickerItem {
     display: inline-block;
     padding: 0 20px;
     font-size: 16px;
@@ -45,7 +45,7 @@
 }
 
 /* Keyframes for continuous scrolling */
-@keyframes ticker-scroll {
+@keyframes tickerScroll {
     from {
         transform: translateX(0%);
     }

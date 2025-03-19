@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./StockTicker.css"; // Import the CSS for scrolling effect
+import styles from "./StockTicker.module.css"; // Correct CSS Module Import
 
 const StockTicker = () => {
     const [tickers, setTickers] = useState([]);
@@ -22,14 +22,14 @@ const StockTicker = () => {
     }, []);
 
     return (
-        <div className="ticker-container">
-            <div className="ticker-wrapper">
-                <div className="ticker-content">
+        <div className={styles.tickerContainer}>
+            <div className={styles.tickerWrapper}>
+                <div className={styles.tickerContent}>
                     {tickers.length > 0 ? (
                         tickers.map((stock, index) => (
-                            <span key={index} className="ticker-item">
+                            <span key={index} className={styles.tickerItem}>
                                 <strong>{stock.symbol}</strong>: ${stock.price.toFixed(2)} 
-                                <span className={stock.change >= 0 ? "green" : "red"}>
+                                <span className={stock.change >= 0 ? styles.green : styles.red}>
                                     {stock.change >= 0 ? ` ▲${stock.change.toFixed(2)}%` : ` ▼${Math.abs(stock.change).toFixed(2)}%`}
                                 </span>
                             </span>
