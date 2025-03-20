@@ -10,10 +10,14 @@ const DashboardPage = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const symbol = queryParams.get("symbol") || "AAPL";
+
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [view, setView] = useState("1W"); // Default view to 1 Week
+    const [isInWatchlist, setIsInWatchlist] = useState(false);
+    const [note, setNote] = useState("");
+    const userId = "user123";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,51 +58,54 @@ const DashboardPage = () => {
             setLoading(false);
         };
 
-        fetchData();
-    }, [symbol, view]);
+        const checkWatchlist = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API}/api/watchlist/${userId}`);
+                const watchlist = response.data.stocks || [];
 
-    const handleAddToWatchlist = async () => {
-        const userId = "user123"; 
+                const stockInWatchlist = watchlist.find(stock => stock.symbol === symbol);
 
-        if (!symbol) {
-            console.error("Symbol is undefined.");
-            alert("Stock symbol is missing!");
-            return;
-        }
-
-        // Find the latest stock data
-        if (!chartData || chartData.labels.length === 0) {
-            console.error("Stock data is not available.");
-            alert("Stock data is not available.");
-            return;
-        }
-
-        const stockDataToSend = {
-            symbol: symbol,
-            name: symbol, // Since API does not return name, using symbol as fallback
-            price: chartData.datasets[0].data.at(-1) || 0, // Get last closing price
+                if (stockInWatchlist) {
+                    setIsInWatchlist(true);
+                    setNote(stockInWatchlist.note || ""); // Get the note if available
+                } else {
+                    setIsInWatchlist(false);
+                    setNote("");
+                }
+            } catch (error) {
+                console.error("Error checking watchlist:", error);
+            }
         };
 
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API}/api/watchlist/${userId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(stockDataToSend),
-            });
+        fetchData();
+        checkWatchlist();
+    }, [symbol, view]);
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || "Failed to add stock to watchlist");
+    const handleWatchlistToggle = async () => {
+        if (isInWatchlist) {
+            // Remove stock from watchlist
+            try {
+                await axios.delete(`${import.meta.env.VITE_API}/api/watchlist/${userId}/${symbol}`);
+                setIsInWatchlist(false);
+                setNote("");
+            } catch (error) {
+                console.error("Failed to remove stock from watchlist:", error);
             }
+        } else {
+            // Add stock to watchlist
+            try {
+                const stockDataToSend = {
+                    symbol,
+                    name: symbol, // Assuming symbol is the name
+                    price: chartData?.datasets[0]?.data.slice(-1)[0] || 0, // Last price point
+                    note, // Include existing note if any
+                };
 
-            console.log("Stock added successfully:", data);
-            alert(`${stockDataToSend.symbol} added to watchlist!`); // Show success message
-        } catch (error) {
-            console.error("Error adding stock to watchlist:", error.message);
-            alert(error.message);
+                await axios.post(`${import.meta.env.VITE_API}/api/watchlist/${userId}`, stockDataToSend);
+                setIsInWatchlist(true);
+            } catch (error) {
+                console.error("Failed to add stock to watchlist:", error);
+            }
         }
     };
 
@@ -116,12 +123,32 @@ const DashboardPage = () => {
                 <option value="YTD">Year to Date</option>
                 <option value="1Y">1 Year</option>
                 <option value="4Y">4 Years</option>
-                <option value="ALL">All Time</option>
+                <option value="ALL">All Years</option>
             </select>
 
-            <button onClick={handleAddToWatchlist}>
-                Add to Watchlist
+            <button onClick={handleWatchlistToggle}>
+                {isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
             </button>
+
+            {isInWatchlist && (
+                <div>
+                    <label>Note:</label>
+                    <textarea
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        onBlur={async () => {
+                            try {
+                                await axios.put(`${import.meta.env.VITE_API}/api/watchlist/${userId}/${symbol}`, {
+                                    note,
+                                });
+                            } catch (error) {
+                                console.error("Failed to update note:", error);
+                            }
+                        }}
+                        placeholder="Add a note..."
+                    />
+                </div>
+            )}
 
             {loading && <p>Loading...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
