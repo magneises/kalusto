@@ -1,0 +1,39 @@
+.dashboardContainer {
+    padding: 20px;
+}
+
+.searchContainer {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stockInfoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.stockDetails {
+    text-align: left;
+}
+
+.chartContainer {
+    position: relative;
+}
+
+.watchlistButton {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.watchlistButton:hover {
+    background-color: #0056b3;
+}

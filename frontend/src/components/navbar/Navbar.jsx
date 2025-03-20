@@ -11,6 +11,7 @@ function Navbar() {
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/history">History</Link>
           <Link to="/news">News</Link>
+          <Link to="/watchlist">Watchlist</Link>
         </nav>
         <div className={styles.userInformation}>
           <button>Get Started</button>

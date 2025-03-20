@@ -57,6 +57,51 @@ const DashboardPage = () => {
         fetchData();
     }, [symbol, view]);
 
+    const handleAddToWatchlist = async () => {
+        const userId = "user123"; 
+
+        if (!symbol) {
+            console.error("Symbol is undefined.");
+            alert("Stock symbol is missing!");
+            return;
+        }
+
+        // Find the latest stock data
+        if (!chartData || chartData.labels.length === 0) {
+            console.error("Stock data is not available.");
+            alert("Stock data is not available.");
+            return;
+        }
+
+        const stockDataToSend = {
+            symbol: symbol,
+            name: symbol, // Since API does not return name, using symbol as fallback
+            price: chartData.datasets[0].data.at(-1) || 0, // Get last closing price
+        };
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API}/api/watchlist/${userId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(stockDataToSend),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to add stock to watchlist");
+            }
+
+            console.log("Stock added successfully:", data);
+            alert(`${stockDataToSend.symbol} added to watchlist!`); // Show success message
+        } catch (error) {
+            console.error("Error adding stock to watchlist:", error.message);
+            alert(error.message);
+        }
+    };
+
     return (
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
             <h1>{symbol} Dashboard</h1>
@@ -71,8 +116,12 @@ const DashboardPage = () => {
                 <option value="YTD">Year to Date</option>
                 <option value="1Y">1 Year</option>
                 <option value="4Y">4 Years</option>
-                <option value="ALL">All Years</option>
+                <option value="ALL">All Time</option>
             </select>
+
+            <button onClick={handleAddToWatchlist}>
+                Add to Watchlist
+            </button>
 
             {loading && <p>Loading...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
