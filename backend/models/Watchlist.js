@@ -7,7 +7,8 @@ const WatchlistSchema = new mongoose.Schema({
             symbol: { type: String, required: true },
             name: { type: String, required: true },
             price: { type: Number, required: true },
-            note: { type: String, default: "" } 
+            note: { type: String, default: "" }, 
+            dateAdded: { type: String, default: Date.now }
         }
     ]
 });
