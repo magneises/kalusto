@@ -10,7 +10,7 @@ function ProfilePage () {
         <div>
             <h1>Welcome, {user.username}!</h1>
             <p>Email: {user.email}</p>
-            <p>User ID: {user.id}</p>
+            <p>User ID: {user._id}</p>
         </div>
     )
 }

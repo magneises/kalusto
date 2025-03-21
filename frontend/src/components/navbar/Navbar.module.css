@@ -84,3 +84,24 @@ button:hover {
     color: white;
     cursor: pointer;
 }
+
+
+.btn1 {
+    background-color: white;
+    border: 2px solid #CF9FFF;
+    border-radius: 5px;
+    height: 30px;
+    width: 100px;
+}
+
+.btn1:hover {
+    background-color: #9f9fff;
+    color: white;
+    cursor: pointer;
+    border: 0px;
+}
+
+.userInformation {
+    display: flex;
+    gap: 10px;
+}
