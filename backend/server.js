@@ -5,15 +5,19 @@ import dotenv from "dotenv";
 import stockRoutes from "./routes/stockRoutes.js";
 import tickerRoutes from "./routes/tickerRoutes.js";
 import watchlistRoutes from "./routes/watchlistRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3200;
 
+
 // Middleware
 app.use(express.json());
 app.use(cors());
+
 
 // Connect to MongoDB
 mongoose
@@ -28,6 +32,7 @@ mongoose
 app.use("/api", stockRoutes);
 app.use("/api", tickerRoutes);
 app.use("/api/watchlist", watchlistRoutes);
+app.use("/api/auth", authRoutes);
 
 // Base API
 app.get("/", (req, res) => {

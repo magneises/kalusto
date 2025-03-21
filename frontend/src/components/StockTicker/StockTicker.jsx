@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./StockTicker.module.css"; // Correct CSS Module Import
+import styles from "./StockTicker.module.css";
 
 const StockTicker = () => {
     const [tickers, setTickers] = useState([]);
@@ -8,7 +8,7 @@ const StockTicker = () => {
     useEffect(() => {
         const fetchTickerData = async () => {
             try {
-                const response = await axios.get(import.meta.env.VITE_API+"/api/ticker"); // Update with your API route
+                const response = await axios.get(import.meta.env.VITE_API+"/api/ticker");
                 setTickers(response.data.tickers || []);
             } catch (error) {
                 console.error("Failed to fetch stock ticker data", error);
@@ -18,7 +18,7 @@ const StockTicker = () => {
         fetchTickerData();
         const interval = setInterval(fetchTickerData, 3600000); // Refresh every 5 seconds
 
-        return () => clearInterval(interval); // Cleanup interval on unmount
+        return () => clearInterval(interval); 
     }, []);
 
     return (
