@@ -13,7 +13,7 @@ import LoginPage from '../../pages/LoginPage';
 function AppRoutes() {
   return (
     <Routes>
-      <Route path='/' element={<SearchPage />} />
+      <Route path='/' element={<DashboardPage />} />
       <Route path='/dashboard' element={<DashboardPage />} />
       <Route path='/history' element={<HistoryPage />} />
       <Route path='/news' element={<NewsPage />} />

@@ -12,7 +12,7 @@ function Navbar() {
       <div className={styles.logoContainer}>Kalusto Demo</div>
 
       <nav className={styles.navLinks}>
-        <Link to="/">Search</Link>
+        {/* <Link to="/">Search</Link> */}
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/history">History</Link>
         <Link to="/news">News</Link>
