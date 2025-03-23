@@ -109,43 +109,30 @@ const DashboardPage = () => {
         }
     };
 
-    const SearchPage = () => {
-        const [symbol, setSymbol] = useState("");
-        const navigate = useNavigate();
-    
-        const handleSearch = () => {
-            if (symbol.length > 0) {
-                navigate(`/dashboard?symbol=${symbol.toUpperCase()}`);
-            }
-        };
-    };
+// At the top of your DashboardPage component
+const [searchSymbol, setSearchSymbol] = useState(symbol); // use initial value from URL
 
+const handleSearch = () => {
+    if (searchSymbol.length > 0) {
+        window.location.href = `/dashboard?symbol=${searchSymbol.toUpperCase()}`;
+    }
+};
 
-
-    // <h1>Stock Market Search</h1>
-    // <input
-    //     type="text"
-    //     placeholder="Enter stock symbol (e.g., AAPL)"
-    //     value={symbol}
-    //     onChange={(e) => setSymbol(e.target.value)}
-    // />
-    // <button onClick={handleSearch}>Search</button>
 
 
     return (
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
             <h1>{symbol} Dashboard</h1>
 
-            <h1>input</h1>
-           <input>
-           
-           </input>
+        {/* Search Input Below */}
+        <input
+            type="text"
+            placeholder="Enter stock symbol (e.g., AAPL)"
+            value={searchSymbol}
+            onChange={(e) => setSearchSymbol(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
 
-
-
-            
-
-            
             
             {/* View Selector Dropdown */}
             <select value={view} onChange={(e) => setView(e.target.value)}>
