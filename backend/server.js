@@ -6,6 +6,7 @@ import stockRoutes from "./routes/stockRoutes.js";
 import tickerRoutes from "./routes/tickerRoutes.js";
 import watchlistRoutes from "./routes/watchlistRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import newsFavoritesRoutes from "./routes/newsFavoritesRoutes.js";
 
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api", stockRoutes);
 app.use("/api", tickerRoutes);
 app.use("/api/watchlist", watchlistRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/news-favorites", newsFavoritesRoutes);
 
 // Base API
 app.get("/", (req, res) => {
@@ -43,3 +45,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);
 });
+
+
+
+
