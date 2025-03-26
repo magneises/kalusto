@@ -48,10 +48,14 @@ router.get("/:userId", async (req, res) => {
 });
 
 
-// DELETE: Remove a specific article by URL from user's favorites
+// DELETE: Remove a specific article by _id, articleTitle, or articleUrl
 router.delete("/:userId", async (req, res) => {
     const { userId } = req.params;
-    const { articleUrl } = req.body;
+    const { articleId, articleTitle, articleUrl } = req.body;
+  
+    if (!articleId && !articleTitle && !articleUrl) {
+      return res.status(400).json({ message: "Please provide articleId, articleTitle, or articleUrl to delete." });
+    }
   
     try {
       const favorites = await NewsPageFavorites.findOne({ userId });
@@ -60,20 +64,35 @@ router.delete("/:userId", async (req, res) => {
         return res.status(404).json({ message: "No favorites found for this user." });
       }
   
-      // Filter out the article with the matching URL
-      const updatedArticles = favorites.newsArticles.filter(
-        article => article.articleUrl !== articleUrl
-      );
+      const originalLength = favorites.newsArticles.length;
   
-      favorites.newsArticles = updatedArticles;
+      // Filter articles based on which field is provided (articleId, articleTitle, articleUrl)
+      favorites.newsArticles = favorites.newsArticles.filter(article => {
+        if (articleId) {
+          return article._id.toString() !== articleId;
+        }
+        if (articleTitle) {
+          return article.articleTitle !== articleTitle;
+        }
+        if (articleUrl) {
+          return article.articleUrl !== articleUrl;
+        }
+        return true;
+      });
+  
+      if (favorites.newsArticles.length === originalLength) {
+        return res.status(404).json({ message: "No matching article found to delete." });
+      }
+  
       await favorites.save();
-  
       res.json({ message: "Article removed successfully", updatedFavorites: favorites.newsArticles });
+  
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Failed to delete article", error: err.message });
     }
   });
+  
   
 
   
