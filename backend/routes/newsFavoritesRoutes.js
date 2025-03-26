@@ -46,3 +46,34 @@ router.get("/:userId", async (req, res) => {
     }
 
 });
+
+
+// DELETE: Remove a specific article by URL from user's favorites
+router.delete("/:userId", async (req, res) => {
+    const { userId } = req.params;
+    const { articleUrl } = req.body;
+  
+    try {
+      const favorites = await NewsPageFavorites.findOne({ userId });
+  
+      if (!favorites) {
+        return res.status(404).json({ message: "No favorites found for this user." });
+      }
+  
+      // Filter out the article with the matching URL
+      const updatedArticles = favorites.newsArticles.filter(
+        article => article.articleUrl !== articleUrl
+      );
+  
+      favorites.newsArticles = updatedArticles;
+      await favorites.save();
+  
+      res.json({ message: "Article removed successfully", updatedFavorites: favorites.newsArticles });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Failed to delete article", error: err.message });
+    }
+  });
+  
+
+  
