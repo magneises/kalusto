@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Navbar.module.css";
+import NewsFavoritesPage from "../../pages/NewsPageFavorites";
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
@@ -17,6 +18,7 @@ function Navbar() {
         <Link to="/history">History</Link>
         <Link to="/news">News</Link>
         <Link to="/watchlist">Watchlist</Link>
+        <Link to="/newsPageFavorites">Favorite News</Link>
         {user && <Link to="/profile">Profile</Link>}
       </nav>
 

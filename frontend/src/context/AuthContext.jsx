@@ -8,29 +8,42 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (token) {
-          fetch(`${import.meta.env.VITE_API}/api/auth/me`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.user) {
-                console.log("Fetched user:", data.user);
-                setUser(data.user);
-              } else {
-                logout();
-              }
+            fetch(`${import.meta.env.VITE_API}/api/auth/me`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             })
-            .catch(() => logout());
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.user) {
+                        console.log("Fetched user:", data.user);
+                        // Normalize _id to id
+                        const normalizedUser = {
+                            id: data.user._id,
+                            username: data.user.username,
+                            email: data.user.email,
+                        };
+                        setUser(normalizedUser);
+                    } else {
+                        logout();
+                    }
+                })
+                .catch(() => logout());
         }
-      }, [token]);
-      
+    }, [token]);
 
     const login = (token, user) => {
         localStorage.setItem("token", token);
         setToken(token);
-        setUser(user);
+
+        // Normalize _id to id
+        const normalizedUser = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+        };
+
+        setUser(normalizedUser);
     };
 
     const logout = () => {
@@ -40,9 +53,9 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
-        {children}
-    </AuthContext.Provider>
+        <AuthContext.Provider value={{ user, token, login, logout }}>
+            {children}
+        </AuthContext.Provider>
     );
 };
 

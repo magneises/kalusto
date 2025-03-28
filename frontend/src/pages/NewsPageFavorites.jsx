@@ -1,5 +1,4 @@
 
-// src/pages/NewsFavoritesPage.jsx
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
@@ -11,12 +10,15 @@ function NewsFavoritesPage() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!user) return;
+      if (!user || !user.id) {
+        console.warn("User or user._id is missing:", user);
+        return;
+      }
 
         const fetchFavorites = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API}/api/news-favorites/${user.id}`);
+              const response = await axios.get(`${import.meta.env.VITE_API}/api/news-favorites/${user.id}`);
                 setFavorites(response.data.newsArticles || []);
             } catch (err) {
                 console.error("Failed to fetch favorites", err);

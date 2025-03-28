@@ -32,20 +32,20 @@ export default router;
 // GET: Retrieve saved news articles for a user
 router.get("/:userId", async (req, res) => {
     const { userId } = req.params;
-
+  
     try {
-        const favorites = await NewsPageFavorites.findOne({ userId });
-        if (!favorites) {
-            return res.status(404).json({ message: "No favorites found for this user." });
-        } 
-    
-        res.json(favorites.newsArticles);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Failed to retrieve favorites", error: err.message });
+      const favorites = await NewsPageFavorites.findOne({ userId });
+  
+      if (!favorites) {
+        return res.status(404).json({ message: "No favorites found for this user." });
+      }
+  
+      res.json(favorites);
+    } catch (error) {
+      console.error("Failed to get news favorites:", error);
+      res.status(500).json({ message: "Server error" });
     }
-
-});
+  });
 
 
 // DELETE: Remove a specific article by _id, articleTitle, or articleUrl
