@@ -10,7 +10,7 @@ function NewsFavoritesPage() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-      if (!user || !user.id) {
+        if (!user || !(user.id || user._id)) {
         console.warn("User or user._id is missing:", user);
         return;
       }

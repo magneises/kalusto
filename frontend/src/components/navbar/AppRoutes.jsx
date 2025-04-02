@@ -9,9 +9,7 @@ import WatchlistPage from "../../pages/WatchlistPage";
 import SignupPage from '../../pages/SignupPage';
 import ProfilePage from "../../pages/ProfilePage";
 import LoginPage from '../../pages/LoginPage';
-import NewsPageFavorites from "../../pages/NewsPageFavorites";
-
-
+import NewsPageFavorites from '../../pages/NewsFavoritesPage'; 
 
 function AppRoutes() {
   return (
@@ -24,7 +22,7 @@ function AppRoutes() {
       <Route path='/signup' element={<SignupPage />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/profile' element={<ProfilePage />} />
-      <Route path='/newsPageFavorites' element={<NewsPageFavorites />} />
+      <Route path='/newsPageFavorites' element={<NewsPageFavorites />} /> 
     </Routes>
   );
 }

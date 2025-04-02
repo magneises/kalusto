@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Navbar.module.css";
-import NewsFavoritesPage from "../../pages/NewsPageFavorites";
+import NewsFavoritesPage from "../../pages/NewsFavoritesPage";
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
