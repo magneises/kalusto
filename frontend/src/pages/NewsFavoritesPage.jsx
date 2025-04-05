@@ -45,6 +45,7 @@ function NewsFavoritesPage() {
                     <p><strong>Publisher:</strong> {article.articlePublisher}</p>
                     <p><strong>Sentiment:</strong> {article.articleSentiment || "N/A"}</p>
                     <a href={article.articleUrl} target="_blank" rel="noopener noreferrer">Read Full Article</a>
+                    
                     <p style={{ fontSize: "0.9em", color: "gray" }}>Saved on: {new Date(article.dateAdded).toLocaleString()}</p>
                 </div>
             ))}
