@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function NewsPage() {
+    const { user } = useContext(AuthContext);
     const [symbol, setSymbol] = useState("AAPL");
-    const [inputValue, setInputValue] = useState("AAPL"); // Separate input field
+    const [inputValue, setInputValue] = useState("AAPL");
     const [news, setNews] = useState([]);
-    const userId = "user123"; // Replace with dynamic user ID from auth if available
+    const userId = "user123";
 
     const fetchNews = async (searchSymbol) => {
         try {
@@ -36,18 +39,23 @@ function NewsPage() {
 
     const handleAddToFavorites = async (article) => {
         try {
-            await axios.post(`${import.meta.env.VITE_API}/api/news-favorites/${userId}`, {
-                articleTitle: article.title,
-                articlePublisher: article.publisher,
-                articleSentiment: article.sentiment,
-                articleUrl: article.article_url,
-            });
-            alert("Article added to favorites!");
-        } catch (error) {
-            console.error("Failed to add article to favorites", error);
-            alert("Error adding article to favorites.");
+          const payload = {
+            articleTitle: article.title,
+            articlePublisher: article.publisher,
+            articleSentiment: article.sentiment,
+            articleUrl: article.article_url,
+          };
+      
+          console.log("Sending to favorites:", payload);
+      
+          await axios.post(`${import.meta.env.VITE_API}/api/news-favorites/${user.id}`, payload);
+          alert("Article added to favorites!");
+        } catch (err) {
+          console.error("Failed to add article to favorites", err);
         }
-    };
+      };
+      
+      
 
     return (
         <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
@@ -84,8 +92,7 @@ function NewsPage() {
                         <a href={article.article_url} target="_blank" rel="noopener noreferrer">Read More</a>
                         <button
                             style={{ marginTop: "10px", display: "block" }}
-                            onClick={() => handleAddToFavorites(article)}
-                        >
+                            onClick={() => handleAddToFavorites(article)}>
                             Add to Favorites
                         </button>
                     </div>
