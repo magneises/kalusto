@@ -80,6 +80,7 @@ router.get("/stocks/:symbol", async (req, res) => {
 });
 
 
+
 // Stock History Selection
 router.get("/stocks/history/:symbol", async (req, res) => {
     const { symbol } = req.params;

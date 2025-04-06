@@ -16,7 +16,7 @@ const fetchHistory = async () => {
             setHistory(response.data.stockData);
         } else {
             console.warn("Unexpected API response structure:", response.data);
-            setHistory([]); // Prevents crashing if response is unexpected
+            setHistory([]);
         }
     } catch (error) {
         console.error("Failed to fetch stock history", error);
