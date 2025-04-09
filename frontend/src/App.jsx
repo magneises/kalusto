@@ -4,6 +4,7 @@ import AuthProvider from "./context/AuthContext";
 import Navbar from "./components/navbar/Navbar";
 import AppRoutes from "./components/navbar/AppRoutes";
 import StockTicker from "./components/StockTicker/StockTicker";
+import AnnouncementBar from "./components/AnnouncementBar/AnnouncementBar";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <Navbar />
                 <StockTicker />
                 <AppRoutes />
+                <AnnouncementBar />
             </Router>
         </AuthProvider>
     );
