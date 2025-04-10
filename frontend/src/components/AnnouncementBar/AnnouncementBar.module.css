@@ -1,6 +1,15 @@
-.announcementContainer {
+.announcementBarContainer {
+    background-color: #fff0f5;
     display: flex;
+    align-items: center;
+    justify-content: center;
     height: 30px;
-    width: 100vw;
-    background-color: blue;
+    color: #333;
+    font-size: 14px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1200;
+    border-bottom: 1px solid #ccc;
 }

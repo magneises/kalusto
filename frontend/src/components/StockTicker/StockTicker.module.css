@@ -5,10 +5,13 @@
     padding: 10px 0;
     overflow: hidden;
     position: fixed;
-    top: 0;
+    top: 30px;
     left: 0;
-    z-index: 1000;
+    z-index: 1100;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    height: 30px;
 }
 
 .tickerWrapper {

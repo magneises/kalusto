@@ -28,9 +28,9 @@ body {
     align-items: center;
     border-bottom: 1px solid grey;
     position: fixed;
-    top: 40px;  /* Moves Navbar below StockTicker */
+    top: 60px;  /* Moves Navbar below StockTicker */
     left: 0;
-    z-index: 1100;  /* Ensures Navbar stays above content */
+    z-index: 1200;  /* Ensures Navbar stays above content */
 }
 
 

@@ -10,10 +10,10 @@ function App() {
     return (
         <AuthProvider>
             <Router>
-                <Navbar />
-                <StockTicker />
-                <AppRoutes />
                 <AnnouncementBar />
+                <StockTicker />
+                <Navbar />
+                <AppRoutes />
             </Router>
         </AuthProvider>
     );
