@@ -3,7 +3,7 @@ import React from 'react'
 function AnnouncementBar() {
   return (
     <div className="styles.announcementContainer">
-        Please note that initial loading times may vary, if data doesn't load after a minute, please refresh your browser. 
+      <p>Note: The initial data may take a few moments to load due to API rate limits. Thank you for your patience.</p>
     </div>
   )
 }
