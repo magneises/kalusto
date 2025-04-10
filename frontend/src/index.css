@@ -73,5 +73,5 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
-  padding-top: 100px; /* Padding for the navigation */
+  padding-top: 120px; /* Padding for the navigation */
 }
