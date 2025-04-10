@@ -31,6 +31,7 @@ body {
     top: 60px;  /* Moves Navbar below StockTicker */
     left: 0;
     z-index: 1200;  /* Ensures Navbar stays above content */
+    text-wrap: nowrap;
 }
 
 
