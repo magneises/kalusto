@@ -1,0 +1,6 @@
+.announcementContainer {
+    display: flex;
+    height: 30px;
+    width: 100vw;
+    background-color: blue;
+}
