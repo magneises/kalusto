@@ -30,6 +30,13 @@ function NewsFavoritesPage() {
         fetchFavorites();
     }, [user]);
 
+
+    const handleFavoriteNewsToggle = async () => {
+        if (isSavedToFavorites) {
+            
+        }
+    }
+
     if (!user) return <p>Please log in to view your favorite news articles.</p>;
 
     return (
@@ -44,7 +51,7 @@ function NewsFavoritesPage() {
                     <h3>{article.articleTitle}</h3>
                     <p><strong>Publisher:</strong> {article.articlePublisher}</p>
                     <p><strong>Sentiment:</strong> {article.articleSentiment || "N/A"}</p>
-                    <button>Hello</button>
+                    <button onClick={handleFavoriteNewsToggle}>Remove Article</button>
                     <a href={article.articleUrl} target="_blank" rel="noopener noreferrer">Read Full Article</a>
                     
                     <p style={{ fontSize: "0.9em", color: "gray" }}>Saved on: {new Date(article.dateAdded).toLocaleString()}</p>
@@ -55,3 +62,5 @@ function NewsFavoritesPage() {
 }
 
 export default NewsFavoritesPage;
+
+
