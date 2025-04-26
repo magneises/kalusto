@@ -33,10 +33,7 @@ function NewsFavoritesPage() {
 
     const handleFavoriteNewsToggle = async () => {
         if (isSavedToFavorites) {
-            // build
-
-
-
+            
         }
     }
     
