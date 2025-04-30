@@ -37,6 +37,9 @@ function NewsFavoritesPage() {
         }
     }
 
+
+    
+
     
     if (!user) return <p>Please log in to view your favorite news articles.</p>;
 
